@@ -20,6 +20,9 @@ scFloat ADD_TYPE_NAME(scPoint_calc_k)(const ADD_TYPE_NAME(scStruct_point)* a, co
 // return the distance between 2 points
 scFloat ADD_TYPE_NAME(scPoint_get_distance)(const ADD_TYPE_NAME(scStruct_point)* a, const ADD_TYPE_NAME(scStruct_point)* b);
 
+// calc the angle a-b-c
+scFloat ADD_TYPE_NAME(scPoint_calc_angle)(const ADD_TYPE_NAME(scStruct_point)* p_a, const ADD_TYPE_NAME(scStruct_point)* p_b, const ADD_TYPE_NAME(scStruct_point)* p_c);
+
 // return false if it is perpendicular to the X axis
 bool ADD_TYPE_NAME(scPoint_get_straight_func)(const ADD_TYPE_NAME(scStruct_point)* a, const ADD_TYPE_NAME(scStruct_point)* b, scStruct_straight* straight);
 

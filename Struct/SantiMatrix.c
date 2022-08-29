@@ -5,37 +5,36 @@
 #include "SantiMatrix.h"
 
 #include "SantiMath.h"
-#include "SantiError.h"
 
 #ifdef ENABLE_SANTICCORE_DEBUG
-#include <stdio.h>
+#include <SantiError.h>
 #endif
 
 static inline void check_matrix(const scStruct_matrix* m){
     if(m == NULL)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "check_matrix");
+        SC_ERROR_REPORT(BAD_PARAMETER);
 }
 
 static inline void check_r_c_range(const scStruct_matrix* m, const scInt32 r, const scInt32 c){
     check_matrix(m);
     if(m->columns < c || m->rows < r || m->m == NULL)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "check_r_c_range");
+        SC_ERROR_REPORT(BAD_PARAMETER);
 }
 
 static inline void check_r_range(const scStruct_matrix* m, const scInt32 r){
     check_matrix(m);
     if(m->rows < r || m->m == NULL)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "check_r_range");
+        SC_ERROR_REPORT(BAD_PARAMETER);
 }
 
 static inline void check_r_c_new_valid(const scInt32 r, const scInt32 c){
     if(r<0 || c<0)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "check_r_c_new_valid");
+        SC_ERROR_REPORT(BAD_PARAMETER);
 }
 
 scStruct_matrix scMatrix_init(scInt32 rows, scInt32 columns, scFloat* m){
     if(rows<0 || columns<0)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scMatrix_init");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     for(int i=0;i<rows*columns;++i)
         m[i]=0;
     scStruct_matrix res = {rows, columns, m};
@@ -61,7 +60,7 @@ void scMatrix_reshape(scStruct_matrix* m, const scInt32 rows_new, const scInt32 
     check_matrix(m);
     check_r_c_new_valid(rows_new, columns_new);
     if(mem == NULL)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scMatrix_reshape");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     for(scInt32 i=0; i < scMath_min_Float(m->rows * m->columns, rows_new * columns_new); ++i)
         mem[i] = m->m[i];
     m->m = mem;
@@ -80,9 +79,9 @@ void scMatrix_swap_line(scStruct_matrix* m, const scInt32 r1, const scInt32 r2){
 
 void scMatrix_multiply(const scStruct_matrix* m1, const scStruct_matrix* m2, scStruct_matrix* ans){
     if(m1->columns != m2->rows)
-        scError_handle(SC_ERROR_MATH, "scMatrix_multiply");
+        SC_ERROR_REPORT(MATH_INVALID);
     if(ans->rows!=m1->rows || ans->columns!=m2->columns)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scMatrix_multiply");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     for (scInt32 i = 0; i < m1->rows; ++i)
         for (scInt32 j = 0; j < m2->columns; ++j)
             for (scInt32 k = 0; k < m1->columns; ++k)
@@ -91,7 +90,7 @@ void scMatrix_multiply(const scStruct_matrix* m1, const scStruct_matrix* m2, scS
 
 bool scMatrix_solve_equation(scStruct_matrix* m, scStruct_matrix* ans){
     if(m->rows+1 != m->columns || ans->rows != m->rows || ans->columns != 1)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scMatrix_solve_equation");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     for(scInt32 i=0; i < m->rows; ++i){
         if(scMath_equal_Float(scMatrix_get(m, i, i), 0)){
             // find a line that x_val(i) is not zero

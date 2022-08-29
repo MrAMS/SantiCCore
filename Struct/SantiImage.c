@@ -8,19 +8,19 @@
 
 scUInt8 scImage_get(const scStruct_img_gray* img, const scInt32 x, const scInt32 y){
     if(x>=img->w || y>=img->h)
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scImage_get");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
     return img->img[y*img->w+x];
 }
 
 void scImage_set(const scStruct_img_gray* img, const scInt32 x, const scInt32 y, scUInt8 val){
     if(x>=img->w || y>=img->h)
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scImage_set");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
     img->img[y*img->w+x] = val;
 }
 
 void scImage_zip_img(const scStruct_img_gray* img, const scInt32 scale, scStruct_img_gray* res){
     if(res->h<img->h/scale || res->w<img->w/scale)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scImage_zip_img");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     res->h = img->h/scale;
     res->w = img->w/scale;
     for(scInt32 i=0; i < res->w; ++i)

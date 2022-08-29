@@ -17,14 +17,31 @@
 #undef ADD_TYPE_NAME
 
 bool scMath_equal_Float(scFloat x, scFloat to){
-    if (scMath_abs_Float(x - to) < EPS)
+    if (scMath_abs_Float(x - to) < scEPS)
         return TRUE;
     return FALSE;
 }
 
 float scMath_arctan(float x){
     // http://nghiaho.com/?p=997
-    return PI/4*x - x*(scMath_abs_Float(x)-1)*(0.2447 + 0.0663*scMath_abs_Float(x));
+    return scPI / 4 * x - x * (scMath_abs_Float(x) - 1) * (0.2447 + 0.0663 * scMath_abs_Float(x));
+}
+
+// Absolute error <= 6.7e-5
+float scMath_acos(float x){
+    // https://developer.download.nvidia.com/cg/acos.html
+    float negate = (float)(x < 0);
+    x = scMath_abs_Float(x);
+    float ret = -0.0187293f;
+    ret = ret * x;
+    ret = ret + 0.0742610f;
+    ret = ret * x;
+    ret = ret - 0.2121144f;
+    ret = ret * x;
+    ret = ret + 1.5707288f;
+    ret = ret * scMath_sqrt(1.0f-x);
+    ret = ret - 2 * negate * ret;
+    return negate * scPI + ret;
 }
 
 float scMath_sqrt_inv_fast(float x){
@@ -48,6 +65,8 @@ float scMath_sqrt(const float x){
     int i = 0x2035AD0C + (*(int*)&x >> 1);
     return x / *(float*)&i + *(float*)&i * 0.25f;
 }
+
+
 
 int scMath_pow(int base, int exp){
     int res = 1;

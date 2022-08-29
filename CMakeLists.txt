@@ -4,7 +4,6 @@ include_directories(Algorithm)
 
 add_library(SantiCCore
         SantiMath.c
-        SantiError.c
         Struct/SantiMatrix.c
         Struct/SantiPoint.c
         Struct/SantiImage.c

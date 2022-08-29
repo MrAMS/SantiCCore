@@ -5,11 +5,19 @@
 #ifndef SANTICCORE_SANTIERROR_H
 #define SANTICCORE_SANTIERROR_H
 
-#define SC_ERROR_ARRAY_OUT_OF_RANGE 1
-#define SC_ERROR_MATH 2
-#define SC_ERROR_BAD_PARAMETER 3
-#define SC_ERROR_UNSOLVABLE 4
+#include <stdlib.h>
+#include <stdio.h>
 
-void scError_handle(char scError_id, const char* where);
+#define ARRAY_OUT_OF_RANGE 1
+#define MATH_INVALID 2
+#define BAD_PARAMETER 3
+#define UNSOLVABLE 4
+
+#define SC_ERROR_REPORT(ERROR_INFO) \
+    do{ \
+    printf("\n[SC ERROR] %s:%d IN %s: %s\n", __FILE__, __LINE__, __FUNCTION__, #ERROR_INFO); \
+    exit(0); \
+    }while(0)
+
 
 #endif //SANTICCORE_SANTIERROR_H

@@ -7,8 +7,8 @@
 
 #include "SantiDefine.h"
 
-#define PI 3.1415
-#define EPS 1e-4
+#define scPI 3.1415f
+#define scEPS 1e-4
 
 #define TYPE scInt32
 #define ADD_TYPE_NAME(X) X##_##Int32
@@ -33,6 +33,8 @@ float scMath_sqrt_fast(float x);
 float scMath_sqrt(float x);
 
 float scMath_arctan(float x);
+
+float scMath_acos(float x);
 
 int scMath_pow(int base, int exp);
 

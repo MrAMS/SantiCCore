@@ -18,7 +18,7 @@ typedef struct Struct_SantiStraight{
 
 
 #ifdef ENABLE_SANTICCORE_DEBUG
-#include "stdio.h"
+#include "SantiError.h"
 #endif
 
 #define TYPE scInt32
@@ -39,6 +39,8 @@ typedef struct Struct_SantiStraight{
 #ifdef ENABLE_SANTICCORE_DEBUG
 void scPoint_Float_print(const scStruct_point_Float * p);
 void scPointlist_Float_print(const scStruct_pointlist_Float * pl);
+void scPoint_In32_print(const scStruct_point_Int32 * p);
+void scPointlist_Int32_print(const scStruct_pointlist_Int32 * pl);
 #endif
 
 

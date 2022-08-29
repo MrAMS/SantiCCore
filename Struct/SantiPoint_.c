@@ -10,7 +10,7 @@ bool ADD_TYPE_NAME(scPoint_is_eq)(const ADD_TYPE_NAME(scStruct_point) *p1, const
 
 scFloat ADD_TYPE_NAME(scPoint_calc_k)(const ADD_TYPE_NAME(scStruct_point)* a, const ADD_TYPE_NAME(scStruct_point)* b){
     if(scMath_equal_Float(a->x, b->x))
-        scError_handle(SC_ERROR_MATH, "scPoint_calc_k");
+        SC_ERROR_REPORT(MATH_INVALID);
     return (scFloat)(a->y - b->y) / (scFloat)(a->x - b->x);
 }
 
@@ -44,9 +44,16 @@ scFloat ADD_TYPE_NAME(scPoint_get_curvature)(const ADD_TYPE_NAME(scStruct_point)
     return 4 * s_abc / (scMath_sqrt(ab2) * scMath_sqrt(bc2) * scMath_sqrt(ac2));
 }
 
+scFloat ADD_TYPE_NAME(scPoint_calc_angle)(const ADD_TYPE_NAME(scStruct_point)* p_a, const ADD_TYPE_NAME(scStruct_point)* p_b, const ADD_TYPE_NAME(scStruct_point)* p_c){
+    scFloat dis_ba = ADD_TYPE_NAME(scPoint_get_distance)(p_b, p_a);
+    scFloat dis_bc = ADD_TYPE_NAME(scPoint_get_distance)(p_b, p_c);
+    scFloat vector_m = (scFloat)((p_a->x-p_b->x)*(p_c->x-p_b->x) + (p_a->y-p_b->y)*(p_c->y-p_b->y));
+    return scMath_acos(vector_m/dis_ba/dis_bc);
+}
+
 
 bool ADD_TYPE_NAME(scPointlist_add)(ADD_TYPE_NAME(scStruct_pointlist)* pl, const ADD_TYPE_NAME(scStruct_point) p){
-    if(pl->len == pl->len_max)
+    if(pl->len >= pl->len_max)
         return FALSE;
     pl->p[pl->len++] = p;
     return TRUE;
@@ -54,7 +61,7 @@ bool ADD_TYPE_NAME(scPointlist_add)(ADD_TYPE_NAME(scStruct_pointlist)* pl, const
 
 static bool ADD_TYPE_NAME(check_i)(const ADD_TYPE_NAME(scStruct_pointlist)* pl, const scInt32 i){
     if(i>=pl->len || i<-pl->len){
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scPointlist:check_i");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
         return FALSE;
     }
     return TRUE;
@@ -74,7 +81,7 @@ ADD_TYPE_NAME(scStruct_pointlist) ADD_TYPE_NAME(scPointlist_select)(const ADD_TY
     if(a<0) a+=pl->len;
     if(b<0) b+=pl->len;
     if(a>b)
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scPointlist_select");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
     ADD_TYPE_NAME(scStruct_pointlist) res = {pl->p+a, b-a+1, pl->len_max-a};
     return res;
 }
@@ -85,6 +92,6 @@ bool ADD_TYPE_NAME(scPointlist_is_line_straight)(const ADD_TYPE_NAME(scStruct_po
     if(i_begin<0) i_begin+=pl->len;
     if(i_end<0) i_end+=pl->len;
     if(i_begin>i_end)
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scPointlist_is_line_straight");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
     return ADD_TYPE_NAME(scPoint_get_curvature)(&pl->p[i_begin], &pl->p[(scInt32)(i_begin + i_end) / 2], &pl->p[i_end]) < threshold_curvature;
 }

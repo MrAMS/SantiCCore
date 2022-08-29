@@ -13,7 +13,7 @@
 bool scCV_perspective_trans_get_matrix(const scStruct_pointlist_Float * pl, const scStruct_pointlist_Float * pl_to,
                                        scStruct_matrix* m_ans){
     if(pl->len!=4 || pl_to->len!=4 || m_ans->rows!=8 || m_ans->columns!=1)
-        scError_handle(SC_ERROR_BAD_PARAMETER, "scCV_perspective_trans_get_matrix");
+        SC_ERROR_REPORT(BAD_PARAMETER);
     float m_data[8*9]={0};
     scStruct_matrix m = {8, 9, m_data};
     for(scChar i=0;i<4;++i){

@@ -4,7 +4,7 @@
 
 static scInt32 ADD_TYPE_NAME(get_i)(const ADD_TYPE_NAME(scStruct_array)* pl, const scInt32 i){
     if(i>=pl->len || i<-pl->len){
-        scError_handle(SC_ERROR_ARRAY_OUT_OF_RANGE, "scArray:check_i");
+        SC_ERROR_REPORT(ARRAY_OUT_OF_RANGE);
         return 0;
     }
     if(i<0) return pl->len+i;

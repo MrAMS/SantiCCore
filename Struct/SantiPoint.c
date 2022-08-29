@@ -24,10 +24,19 @@
 void scPoint_Float_print(const scStruct_point_Float * p){
     printf("Point(%f, %f)\n", p->x, p->y);
 }
+void scPoint_In32_print(const scStruct_point_Int32 * p){
+    printf("Point(%d, %d)\n", p->x, p->y);
+}
 void scPointlist_Float_print(const scStruct_pointlist_Float * pl){
     printf("PointList[%d]{", pl->len);
     for(int i=0;i<pl->len;++i)
         scPoint_Float_print(&pl->p[i]);
+    puts("}");
+}
+void scPointlist_Int32_print(const scStruct_pointlist_Int32 * pl){
+    printf("PointList[%d]{", pl->len);
+    for(int i=0;i<pl->len;++i)
+        scPoint_In32_print(&pl->p[i]);
     puts("}");
 }
 #endif
